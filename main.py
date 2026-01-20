@@ -164,3 +164,33 @@ def create_player(
     db.refresh(new_player)
 
     return new_player
+
+
+
+# ML intregration
+from schemas import ML_MODEL
+import joblib
+
+rf = joblib.load("ml_model/rf_model.pkl")
+
+cluster_map = {
+    0: "Low",
+    1: "Average",
+    2: "Pro",
+    3: "Elite"
+}
+
+@app.post("/ml/predict")
+def ai_predict(data: ML_MODEL):
+
+    pred = rf.predict([[
+        data.matches,
+        data.runs,
+        data.average,
+        data.wickets
+    ]])[0]
+
+    return {
+        "ai_result": cluster_map[pred]
+    }
+

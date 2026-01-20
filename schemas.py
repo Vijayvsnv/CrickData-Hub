@@ -70,3 +70,13 @@ class PLAYER_DETAILED_UPDATE(BaseModel):
 
 class PLAYER_DETAILED(CRICKET_RECORD):
     pass
+
+
+
+
+# Ml Model schema 
+class ML_MODEL(BaseModel):
+    matches: int
+    runs: int
+    average: float
+    wickets: int

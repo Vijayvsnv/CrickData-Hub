@@ -3,3 +3,5 @@ pydantic
 sqlalchemy
 fastapi
 uvicorn
+joblib
+scikit-learn

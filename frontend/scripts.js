@@ -114,3 +114,35 @@ function deletePlayer() {
 
 
 // Post method
+
+
+
+
+
+
+
+
+
+// Machine learning model 
+function predictML() {
+
+    const data = {
+        matches: parseInt(document.getElementById("matches").value),
+        runs: parseInt(document.getElementById("runs").value),
+        average: parseFloat(document.getElementById("average").value),
+        wickets: parseInt(document.getElementById("wickets").value)
+    };
+
+    fetch("http://127.0.0.1:8000/ml/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(d => {
+        document.getElementById("result").innerText =
+            "AI Prediction: " + d.ai_result;
+    });
+}
