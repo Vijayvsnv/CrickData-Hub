@@ -20,19 +20,32 @@ function loadPlayers(){
 
 
 // #data with player name
+const singleBtn = document.getElementById("Check Info");
+singleBtn.addEventListener("click", loadSinglePlayer);
 
-// const single_player = document.getElementById("Check Info");
-// single_player.addEventListener("click",loadsingle);
+function loadSinglePlayer(){
 
-// function loadsingle(){
-//     fetch(API_URL +'/players/name/' + player_name).then(function(response){
-//         return response.json();
-//     }).then(function(players1){
-//         var list1 = document.getElementById("player bio");
-//         list1.innerHTML ="";
-//     }).then()
-// }
+    var player_name = document.getElementById("player_name").value;
 
+    fetch(API_URL + "/players/name/" + player_name)
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(player){
+
+            var list = document.getElementById("playerslist");
+            list.innerHTML = "";
+
+            var li = document.createElement("li");
+            li.innerText =
+                player.name + " | Runs :" + player.runs +
+                " | Matches :" + player.matches +
+                " | Avg :" + player.average +
+                " | Wickets :" + player.wickets;
+
+            list.appendChild(li);
+        });
+}
 
 
 document.addEventListener("DOMContentLoaded", function () {
