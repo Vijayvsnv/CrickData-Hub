@@ -1,7 +1,12 @@
 const API_URL = "http://127.0.0.1:8000";
 
+// const loadBtn = document.getElementById("loadPlayerss");
+// loadBtn.addEventListener("click", loadPlayers);
 const loadBtn = document.getElementById("loadPlayerss");
-loadBtn.addEventListener("click", loadPlayers);
+if (loadBtn) {
+    loadBtn.addEventListener("click", loadPlayers);
+}
+
 
 function loadPlayers(){
     fetch(API_URL + '/players').then(function(response){
@@ -19,31 +24,41 @@ function loadPlayers(){
 }
 
 
-// #data with player name
-const singleBtn = document.getElementById("Check Info");
+// #data with player name 
+
+const singleBtn = document.getElementById("CheckInfo");
 singleBtn.addEventListener("click", loadSinglePlayer);
 
 function loadSinglePlayer(){
 
-    var player_name = document.getElementById("player_name").value;
+    const player_name = document.getElementById("player_name").value.trim();
 
-    fetch(API_URL + "/players/name/" + player_name)
-        .then(function(response){
+    if (!player_name) {
+        alert("Please enter player name");
+        return;
+    }
+
+    fetch(API_URL + "/players/name/" + encodeURIComponent(player_name))
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Player not found");
+            }
             return response.json();
         })
-        .then(function(player){
+        .then(player => {
 
-            var list = document.getElementById("playerslist");
+            const list = document.getElementById("playerslist");
             list.innerHTML = "";
 
-            var li = document.createElement("li");
+            const li = document.createElement("li");
             li.innerText =
-                player.name + " | Runs :" + player.runs +
-                " | Matches :" + player.matches +
-                " | Avg :" + player.average +
-                " | Wickets :" + player.wickets;
+                `${player.name} | Runs: ${player.runs} | Matches: ${player.matches}
+                 | Avg: ${player.average} | Wickets: ${player.wickets}`;
 
             list.appendChild(li);
+        })
+        .catch(err => {
+            alert(err.message);
         });
 }
 
@@ -62,8 +77,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // update player using inputs 
+// const Update_btn = document.getElementById("Update_player");
+// Update_btn.addEventListener("click",update_player);
 const Update_btn = document.getElementById("Update_player");
-Update_btn.addEventListener("click",update_player);
+if (Update_btn) {
+    Update_btn.addEventListener("click", update_player);
+}
+
 
 function update_player(){
     const player_name = document.getElementById("player_name").value.trim();
