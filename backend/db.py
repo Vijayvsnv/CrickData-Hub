@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker,declarative_base
 USERNAME = "postgres"
 PASSWORD = "12345"
 HOST = "localhost"
-PORT = 5432
+PORT = 5433
 DB_NAME = "cricket"
 
 urls= f"postgresql+psycopg2://{USERNAME}:{PASSWORD}@{HOST}:{PORT}/{DB_NAME}"

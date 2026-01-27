@@ -1,60 +1,81 @@
-/* body {
+/* ===== CRICBUZZ STYLE LOOK ===== */
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f1f2f4;
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #6a74d9, #7b5fc4);
-    color: white;
+    padding: 15px;
 }
 
-h2 {
-    text-align: center;
-    margin-top: 20px;
-}
-
-button {
-    padding: 10px 18px;
-    border: none;
-    border-radius: 20px;
-    background: #ff7a5c;
-    color: white;
+/* Headings */
+h2, h3, h4 {
+    color: #222;
     font-weight: bold;
-    cursor: pointer;
+}
+
+/* Section cards */
+h3 {
+    background: #ffffff;
+    padding: 10px;
+    border-left: 4px solid #009270;
+}
+
+/* Buttons (Cricbuzz type) */
+button {
+    background-color: #009270;
+    color: white;
+    border-radius: 3px;
+    font-size: 13px;
 }
 
 button:hover {
-    opacity: 0.9;
+    background-color: #007a5f;
 }
 
-#playerslist {
-    margin: 20px auto;
-    width: 80%;
+/* Inputs */
+input {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 13px;
 }
 
-div {
-    width: 85%;
-    margin: 30px auto;
+/* Player list */
+ul li {
+    background: #ffffff;
+    border-left: 3px solid #009270;
+    font-size: 13px;
 }
 
-div h2 {
-    text-align: center;
+/* Admin panel */
+.admin-only {
+    background: #ffffff;
+    border-left: 4px solid #ff9800;
 }
 
-div input {
-    width: 180px;
-    padding: 6px;
-    margin: 6px;
-    border-radius: 4px;
-    border: none;
+/* Links */
+a {
+    color: #009270;
+    text-decoration: none;
 }
 
-label {
-    margin-left: 10px;
+a:hover {
+    text-decoration: underline;
+}
+ /* ===== BIG CHATBOT ===== */
+#chatbot {
+    width: 320px;
 }
 
-#updateResult {
-    width: 80%;
-    margin: 20px auto;
-    background: rgba(255,255,255,0.1);
-    padding: 15px;
-    border-radius: 8px;
-} */
+/* direct div styling (tumhare HTML ke hisab se) */
+div[style*="position: fixed"] {
+    width: 320px !important;
+    height: 380px;
+    font-size: 14px;
+}
 
+#chat_reply {
+    min-height: 120px;
+    background: #f9f9f9;
+    padding: 8px;
+    border: 1px solid #ccc;
+}

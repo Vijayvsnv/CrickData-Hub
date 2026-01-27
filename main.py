@@ -1,12 +1,18 @@
 from fastapi import FastAPI, Depends,HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from db import SessionLocal
-from models import Cricketer
-from schemas import CRICKET_RECORD,PLAYER_DETAILED,PLAYER_DETAILED_INSERT,PLAYER_DETAILED_UPDATE
+from backend.db import SessionLocal,Base,engine
+from backend.models import Cricketer,User
+from backend.schemas import CRICKET_RECORD,PLAYER_DETAILED,PLAYER_DETAILED_INSERT,PLAYER_DETAILED_UPDATE
+from backend.routers import auth  
+from backend.dependencies.auth import get_current_user , admin_only
+from backend.chatbot import router as chatbot
 
 
 from fastapi.middleware.cors import CORSMiddleware
+
+Base.metadata.create_all(bind=engine)
+
 
 app = FastAPI()
 
@@ -20,7 +26,7 @@ app.add_middleware(
 )
 
 
-
+app.include_router(auth.router)
 
 def get_db():
     db = SessionLocal()
@@ -30,14 +36,14 @@ def get_db():
         db.close()
 # all player data
 @app.get("/players", response_model=List[CRICKET_RECORD])
-def get_all_players(db: Session = Depends(get_db)):
+def get_all_players(db: Session = Depends(get_db),user: dict = Depends(get_current_user)):
     return db.query(Cricketer).all()
 
 
 # Single player name
 
 @app.get("/players/name/{player_name}", response_model=PLAYER_DETAILED)
-def get_player_by_name(player_name: str, db: Session = Depends(get_db)):
+def get_player_by_name(player_name: str, db: Session = Depends(get_db),current_user = Depends(get_current_user)):
     player = (db.query(Cricketer).filter(Cricketer.name == player_name).first()
     )
 
@@ -56,7 +62,8 @@ def get_player_by_name(player_name: str, db: Session = Depends(get_db)):
 def update_player_by_name(
     player_name: str,
     player: PLAYER_DETAILED_UPDATE,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin = Depends(admin_only) 
 ):
     db_player = db.query(Cricketer).filter(
         Cricketer.name == player_name
@@ -113,7 +120,8 @@ def update_player_by_name(
 
 # player ka name se delete 
 @app.delete("/players/{id}")
-def delete_player(id: str, db: Session = Depends(get_db)):
+def delete_player(id: str, db: Session = Depends(get_db),
+                  admin: dict = Depends(admin_only)):
     player = db.query(Cricketer).filter(Cricketer.id == id).first()
 
     if not player:
@@ -126,11 +134,12 @@ def delete_player(id: str, db: Session = Depends(get_db)):
 
 
 # post
-# Create new player
+# Create new player // Insert
 @app.post("/players/insert", response_model=PLAYER_DETAILED)
 def create_player(
     player: PLAYER_DETAILED_INSERT,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    admin: dict = Depends(admin_only)
 ):
     existing_player = db.query(Cricketer).filter(
         Cricketer.name == player.name
@@ -168,7 +177,7 @@ def create_player(
 
 
 # ML intregration
-from schemas import ML_MODEL
+from backend.schemas import ML_MODEL
 import joblib
 
 rf = joblib.load("ml_model/rf_model.pkl")
@@ -194,3 +203,6 @@ def ai_predict(data: ML_MODEL):
         "ai_result": cluster_map[pred]
     }
 
+
+# Chatbot api
+app.include_router(chatbot)

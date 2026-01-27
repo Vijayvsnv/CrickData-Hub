@@ -1,64 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Cricket Players</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin-top: 15px;
-        }
-
-        li {
-            padding: 8px;
-            margin-bottom: 6px;
-            background: #f2f2f2;
-            border-radius: 4px;
-        }
-
-        .nav {
-            margin-top: 20px;
-        }
-
-        .nav a {
-            margin-right: 15px;
-            text-decoration: none;
-            padding: 6px 10px;
-            background: #007bff;
-            color: white;
-            border-radius: 4px;
-        }
-
-        .nav a:hover {
-            background: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Cricket Dashboard</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <h1>Cricket Players List</h1>
+<h2>Cricket Dashboard</h2>
+<button onclick="logout()">Logout</button>
 
-    <button id="loadPlayerss">Load Players</button>
+<hr>
 
-    <ul id="playerslist"></ul>
+<!-- ================= PLAYERS SECTION ================= -->
+<h3>Players</h3>
 
+<button id="loadPlayerss">Load All Players</button>
+<br><br>
 
-    <div class="nav">
-        <a href="update.html"> Update Player</a>
-        <a href="delete.html"> Delete Player</a>
-        <a href="ml.html">AI Player Rating</a>
-        <a href="single.html">Single Player Detaioeld</a>
+<!-- 🔍 SEARCH PLAYER -->
+<input id="search_player_name" placeholder="Player Name">
+<button id="CheckInfo">Get Player Info</button>
 
+<ul id="playerslist"></ul>
 
-    </div>
+<hr>
 
-    <script src="scripts.js"></script>
+<!-- ================= ML SECTION ================= -->
+<h3>ML Prediction</h3>
+
+<input id="ml_matches" placeholder="Matches">
+<input id="ml_runs" placeholder="Runs">
+<input id="ml_avg" placeholder="Average">
+<input id="ml_wickets" placeholder="Wickets">
+<br><br>
+
+<button onclick="predictML()">Predict</button>
+<p id="result"></p>
+
+<hr>
+
+<!-- ================= ADMIN SECTION ================= -->
+<div class="admin-only">
+
+  <h3>Admin Panel</h3>
+
+  <h4>Insert / Update Player</h4>
+
+  <!-- ✅ UPDATE / INSERT NAME -->
+  <input id="update_player_name" placeholder="Player Name">
+  <input id="CountryName" placeholder="Country">
+  <input id="Role" placeholder="Role">
+  <br><br>
+
+  <input id="battingstyle" placeholder="Batting Style">
+  <input id="BowlingStyle" placeholder="Bowling Style">
+  <br><br>
+
+  <input id="matches" placeholder="Matches">
+  <input id="runs" placeholder="Runs">
+  <input id="avg" placeholder="Average">
+  <input id="wickets" placeholder="Wickets">
+  <br><br>
+
+  <input id="strikerate" placeholder="Strike Rate">
+  <input id="economy" placeholder="Economy">
+  <input id="bestscore" placeholder="Best Score">
+  <br><br>
+
+  <label>
+    Active <input type="checkbox" id="is_active">
+  </label>
+
+  <input type="date" id="joinDate">
+  <br><br>
+
+  <button onclick="insertPlayer()">Insert Player</button>
+  <button id="Update_player">Update Player</button>
+
+  <hr>
+
+  <!-- ================= DELETE ================= -->
+  <h4>Delete Player</h4>
+  <input id="player_id" placeholder="Player ID">
+  <button onclick="deletePlayer()">Delete Player</button>
+
+</div>
+
+<!-- ================= CHATBOT ================= -->
+<div style="
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 260px;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 13px;
+">
+  <b>🏏 Cricket Bot</b><br><br>
+
+  <input id="chat_input" placeholder="Ask about a player..." style="width: 100%;">
+  <button onclick="askBot()" style="margin-top: 6px; width: 100%;">Ask</button>
+
+  <div id="chat_reply" style="margin-top: 8px;"></div>
+</div>
+
+<script src="scripts.js"></script>
+
+<script>
+  // Redirect if not logged in
+  if (!localStorage.getItem("token")) {
+    window.location.href = "login.html";
+  }
+
+  // Role-based UI
+  const role = localStorage.getItem("role");
+  if (role !== "admin") {
+    document.querySelectorAll(".admin-only")
+      .forEach(el => el.style.display = "none");
+  }
+
+  // TEMP chatbot
+  function askBot() {
+    const q = document.getElementById("chat_input").value;
+    if (!q) return;
+    document.getElementById("chat_reply").innerText = "waiting " + q;
+  }
+</script>
+
 </body>
 </html>

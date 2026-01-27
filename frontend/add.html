@@ -2,23 +2,24 @@
 <html>
 <head>
     <title>Add Player</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Add New Player</h2>
+<h2>Add New Player (Admin)</h2>
 
-<input type="text" id="name" placeholder="Name"><br><br>
-<input type="text" id="country" placeholder="Country"><br><br>
-<input type="text" id="role" placeholder="Role"><br><br>
-<input type="number" id="runs" placeholder="Runs"><br><br>
+<input id="name" placeholder="Name"><br><br>
+<input id="country" placeholder="Country"><br><br>
+<input id="role" placeholder="Role"><br><br>
+<input id="matches" placeholder="Matches"><br><br>
+<input id="runs" placeholder="Runs"><br><br>
+<input id="avg" placeholder="Average"><br><br>
+<input id="wickets" placeholder="Wickets"><br><br>
 
-<button id="addPlayer">Add Player</button>
+<button onclick="addPlayer()">Add Player</button>
 
-<div id="addResult"></div>
+<p id="addResult"></p>
 
-<hr>
-<a href="index.html">⬅ Back</a>
+<a href="index.html">Back</a>
 
 <script src="scripts.js"></script>
 </body>
