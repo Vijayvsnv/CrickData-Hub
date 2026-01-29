@@ -11,7 +11,6 @@ class Cricketer(Base):
     role = Column(String)
     batting_style = Column(String)
     bowling_style = Column(String)
-
     matches = Column(Integer)
     runs = Column(Integer)
 

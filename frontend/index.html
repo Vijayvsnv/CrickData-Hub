@@ -1,133 +1,224 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Cricket Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Cricket Player Dashboard</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Cricket Dashboard</h2>
-<button onclick="logout()">Logout</button>
+<header>
+    <h1>🏏 Cricket Player Dashboard</h1>
+    <button onclick="logout()">Logout</button>
+</header>
 
-<hr>
+<div class="container">
 
-<!-- ================= PLAYERS SECTION ================= -->
-<h3>Players</h3>
+    <!-- All Players -->
+    <!-- <section class="card">
+        <h3>All Players</h3>
+        <button id="loadPlayerss">Load Players</button>
+        <ul id="playerslist"></ul>
+    </section> -->
 
-<button id="loadPlayerss">Load All Players</button>
-<br><br>
+    <!-- Search Player -
+    <section class="card">
+        <h3>Search Player</h3>
+        <input type="text" id="search_player_name" placeholder="Player Name">
+        <button id="CheckInfo">Search</button>
+    </section>
 
-<!-- 🔍 SEARCH PLAYER -->
-<input id="search_player_name" placeholder="Player Name">
-<button id="CheckInfo">Get Player Info</button>
+    <!-- Insert Player (ADMIN) --
+    <section class="card admin-only">
+        <h3>Insert Player</h3>
 
-<ul id="playerslist"></ul>
+        <input id="name" placeholder="Name">
+        <input id="CountryName" placeholder="Country">
+        <input id="Role" placeholder="Role">
+        <input id="battingstyle" placeholder="Batting Style">
+        <input id="BowlingStyle" placeholder="Bowling Style">
+        <input id="matches" placeholder="Matches">
+        <input id="runs" placeholder="Runs">
+        <input id="avg" placeholder="Average">
+        <input id="wickets" placeholder="Wickets">
+        <input id="strikerate" placeholder="Strike Rate">
+        <input id="economy" placeholder="Economy">
+        <input id="bestscore" placeholder="Best Score">
+        <input type="date" id="joinDate">
+        <label><input type="checkbox" id="is_active"> Active</label>
 
-<hr>
+        <button onclick="insertPlayer()">Insert</button>
+    </section>
 
-<!-- ================= ML SECTION ================= -->
-<h3>ML Prediction</h3>
+    <!-- Update Player (ADMIN) --
+    <!-- SAME INPUTS USED (JS COMPATIBLE) --
+    <section class="card admin-only">
+        <h3>Update Player</h3>
 
-<input id="ml_matches" placeholder="Matches">
-<input id="ml_runs" placeholder="Runs">
-<input id="ml_avg" placeholder="Average">
-<input id="ml_wickets" placeholder="Wickets">
-<br><br>
+        <input id="update_player_name" placeholder="Player Name to Update">
 
-<button onclick="predictML()">Predict</button>
-<p id="result"></p>
+        <!-- SAME IDS AS INSERT --
+        <input id="CountryName" placeholder="Country">
+        <input id="Role" placeholder="Role">
+        <input id="battingstyle" placeholder="Batting Style">
+        <input id="BowlingStyle" placeholder="Bowling Style">
+        <input id="matches" placeholder="Matches">
+        <input id="runs" placeholder="Runs">
+        <input id="avg" placeholder="Average">
+        <input id="wickets" placeholder="Wickets">
+        <input id="strikerate" placeholder="Strike Rate">
+        <input id="economy" placeholder="Economy">
+        <input id="bestscore" placeholder="Best Score">
+        <input type="date" id="joinDate">
+        <label><input type="checkbox" id="is_active"> Active</label>
 
-<hr>
+        <button id="Update_player">Update</button>
+    </section>
 
-<!-- ================= ADMIN SECTION ================= -->
-<div class="admin-only">
+    <!-- Delete Player --
+    <section class="card admin-only">
+        <h3>Delete Player</h3>
+        <input id="player_id" placeholder="Player ID">
+        <button onclick="deletePlayer()">Delete</button>
+    </section>
 
-  <h3>Admin Panel</h3>
+    <!-- ML --
+    <section class="card">
+        <h3>AI Performance Prediction</h3>
+        <input id="ml_matches" placeholder="Matches">
+        <input id="ml_runs" placeholder="Runs">
+        <input id="ml_avg" placeholder="Average">
+        <input id="ml_wickets" placeholder="Wickets">
+        <button onclick="predictML()">Predict</button>
+        <p id="result"></p>
+    </section>
 
-  <h4>Insert / Update Player</h4>
+    <!-- Chat --
+    <section class="card">
+        <h3>AI Chat Assistant</h3>
+        <input id="chat_input" placeholder="Ask something...">
+        <button onclick="sendChat()">Send</button>
+        <p id="chat_reply"></p>
+    </section>
 
-  <!-- ✅ UPDATE / INSERT NAME -->
-  <input id="update_player_name" placeholder="Player Name">
-  <input id="CountryName" placeholder="Country">
-  <input id="Role" placeholder="Role">
-  <br><br>
-
-  <input id="battingstyle" placeholder="Batting Style">
-  <input id="BowlingStyle" placeholder="Bowling Style">
-  <br><br>
-
-  <input id="matches" placeholder="Matches">
-  <input id="runs" placeholder="Runs">
-  <input id="avg" placeholder="Average">
-  <input id="wickets" placeholder="Wickets">
-  <br><br>
-
-  <input id="strikerate" placeholder="Strike Rate">
-  <input id="economy" placeholder="Economy">
-  <input id="bestscore" placeholder="Best Score">
-  <br><br>
-
-  <label>
-    Active <input type="checkbox" id="is_active">
-  </label>
-
-  <input type="date" id="joinDate">
-  <br><br>
-
-  <button onclick="insertPlayer()">Insert Player</button>
-  <button id="Update_player">Update Player</button>
-
-  <hr>
-
-  <!-- ================= DELETE ================= -->
-  <h4>Delete Player</h4>
-  <input id="player_id" placeholder="Player ID">
-  <button onclick="deletePlayer()">Delete Player</button>
-
-</div>
-
-<!-- ================= CHATBOT ================= -->
-<div style="
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  width: 260px;
-  background: #ffffff;
-  border: 1px solid #ccc;
-  padding: 10px;
-  font-size: 13px;
-">
-  <b>🏏 Cricket Bot</b><br><br>
-
-  <input id="chat_input" placeholder="Ask about a player..." style="width: 100%;">
-  <button onclick="askBot()" style="margin-top: 6px; width: 100%;">Ask</button>
-
-  <div id="chat_reply" style="margin-top: 8px;"></div>
 </div>
 
 <script src="scripts.js"></script>
+</body>
+</html> -->
 
-<script>
-  // Redirect if not logged in
-  if (!localStorage.getItem("token")) {
-    window.location.href = "login.html";
-  }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cricket Player Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-  // Role-based UI
-  const role = localStorage.getItem("role");
-  if (role !== "admin") {
-    document.querySelectorAll(".admin-only")
-      .forEach(el => el.style.display = "none");
-  }
+<header>
+    <h1>Cricket Player Dashboard</h1>
+    <button onclick="logout()">Logout</button>
+</header>
 
-  // TEMP chatbot
-  function askBot() {
-    const q = document.getElementById("chat_input").value;
-    if (!q) return;
-    document.getElementById("chat_reply").innerText = "waiting " + q;
-  }
-</script>
+<div class="container">
 
+    <!-- All Players -->
+    <section class="card">
+        <h3>All Players</h3>
+        <button id="loadPlayerss">Load Players</button>
+        <ul id="playerslist"></ul>
+    </section>
+
+    <!-- Search Player -->
+    <section class="card">
+        <h3>Search Player</h3>
+        <input type="text" id="search_player_name" placeholder="Player Name">
+        <button id="CheckInfo">Search</button>
+    </section>
+
+    <!-- Insert Player (ADMIN) -->
+    <section class="card admin-only">
+        <h3>Insert Player</h3>
+        <input id="name" placeholder="Name">
+        <input id="CountryName" placeholder="Country">
+        <input id="Role" placeholder="Role">
+        <input id="battingstyle" placeholder="Batting Style">
+        <input id="BowlingStyle" placeholder="Bowling Style">
+        <input id="matches" placeholder="Matches">
+        <input id="runs" placeholder="Runs">
+        <input id="avg" placeholder="Average">
+        <input id="wickets" placeholder="Wickets">
+        <input id="strikerate" placeholder="Strike Rate">
+        <input id="economy" placeholder="Economy">
+        <input id="bestscore" placeholder="Best Score">
+        <input type="date" id="joinDate">
+        <label><input type="checkbox" id="is_active"> Active</label>
+        <button onclick="insertPlayer()">Insert</button>
+    </section>
+
+    <!-- Update Player (ADMIN) -->
+    <section class="card admin-only">
+        <h3>Update Player</h3>
+
+        <input id="update_player_name" placeholder="Player Name to Update">
+
+        <!-- SAME IDs AS JS EXPECTS -->
+        <input id="CountryName" placeholder="Country">
+        <input id="Role" placeholder="Role">
+        <input id="battingstyle" placeholder="Batting Style">
+        <input id="BowlingStyle" placeholder="Bowling Style">
+        <input id="matches" placeholder="Matches">
+        <input id="runs" placeholder="Runs">
+        <input id="avg" placeholder="Average">
+        <input id="wickets" placeholder="Wickets">
+        <input id="strikerate" placeholder="Strike Rate">
+        <input id="economy" placeholder="Economy">
+        <input id="bestscore" placeholder="Best Score">
+        <input type="date" id="joinDate">
+        <label><input type="checkbox" id="is_active"> Active</label>
+
+        <button id="Update_player">Update</button>
+    </section>
+
+    <!-- Delete Player (ADMIN) -->
+    <section class="card admin-only">
+        <h3>Delete Player</h3>
+        <input id="player_id" placeholder="Player ID">
+        <button onclick="deletePlayer()">Delete</button>
+    </section>
+
+    <!-- ML Prediction -->
+    <section class="card">
+        <h3>AI Performance Prediction</h3>
+        <input id="ml_matches" placeholder="Matches">
+        <input id="ml_runs" placeholder="Runs">
+        <input id="ml_avg" placeholder="Average">
+        <input id="ml_wickets" placeholder="Wickets">
+        <button onclick="predictML()">Predict</button>
+        <p id="result"></p>
+    </section>
+
+</div>
+
+<!-- 🔥 FLOATING AI CHAT (FIXED RIGHT-BOTTOM) -->
+<div class="chat-float">
+
+    <div class="chat-header">
+        Cricket Chat
+    </div>
+
+    <div class="chat-body" id="chat_reply">
+        Ask me anything about cricket...
+    </div>
+
+    <div class="chat-footer">
+        <input id="chat_input" placeholder="Type message...">
+        <button onclick="sendChat()">Send</button>
+    </div>
+
+</div>
+
+<script src="scripts.js"></script>
 </body>
 </html>

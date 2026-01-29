@@ -30,10 +30,8 @@ def register(
         password=hashed,
         role=user.role
     )
-
     db.add(new_user)
     db.commit()
-
     return {"message": "User registered successfully"}
 
 

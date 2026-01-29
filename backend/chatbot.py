@@ -8,16 +8,12 @@ load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 model = genai.GenerativeModel("gemini-2.5-flash")
 router = APIRouter(prefix="/chat", tags=["ChatBot"])
-
-
-
 class ChatReq(BaseModel):
     message: str
 
 @router.post("/ask")
 def ask_chatbot(data: ChatReq):
     prompt = f"""You are a cricket expert assistant.
-
 Rules:
 1. Answer ONLY cricket-related questions.
 2. Automatically detect the user’s language:

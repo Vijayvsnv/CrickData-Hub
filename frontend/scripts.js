@@ -170,24 +170,25 @@ function deletePlayer() {
 
 // Machine learning model 
 function predictML() {
-
     const data = {
-        matches: parseInt(document.getElementById("matches").value),
+        matches: parseInt(document.getElementById("ml_matches").value),
         runs: parseInt(document.getElementById("ml_runs").value),
-        average: parseFloat(document.getElementById("avg").value),
-        wickets: parseInt(document.getElementById("wickets").value)
+        average: parseFloat(document.getElementById("ml_avg").value),
+        wickets: parseInt(document.getElementById("ml_wickets").value)
     };
 
     fetch(API_URL + "/ml/predict", {
-    method: "POST",
-    headers: authHeaders(),
-    body: JSON.stringify(data)})
-    .then(res => res.json())
-    .then(d => {
+        method: "POST",
+        headers: authHeaders(),
+        body: JSON.stringify(data)
+    })
+    .then(r=>r.json())
+    .then(d=>{
         document.getElementById("result").innerText =
             "AI Prediction: " + d.ai_result;
     });
 }
+
 
 
 
@@ -337,3 +338,38 @@ function sendChat() {
     });
 }
 
+
+
+// registered regarding
+function registerUser() {
+
+    const data = {
+        username: document.getElementById("reg_username").value.trim(),
+        password: document.getElementById("reg_password").value.trim(),
+        role: document.getElementById("reg_role").value
+    };
+
+    if (!data.username || !data.password) {
+        document.getElementById("reg_msg").innerText = "All fields are required";
+        return;
+    }
+
+    fetch(API_URL + "/auth/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Registration failed");
+        return res.json();
+    })
+    .then(() => {
+        alert("User registered successfully");
+        window.location.href = "login.html";
+    })
+    .catch(err => {
+        document.getElementById("reg_msg").innerText = err.message;
+    });
+}

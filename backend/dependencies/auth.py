@@ -16,28 +16,11 @@ def create_access_token(data:dict):
     data["exp"] = datetime.utcnow() + timedelta(minutes=20)
     return jwt.encode(data, SECRET_KEY ,algorithm=ALGORITHM)
 
-
-
-
-
 # user authotetication user token is right or not 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 
-# def get_current_user(token: str = Depends(oauth2_scheme)):
-#     try:
-#         payload = jwt.decode(
-#             token,
-#             SECRET_KEY,
-#             algorithms=[ALGORITHM]
-#         )
-#         return payload
 
-#     except JWTError:
-#         raise HTTPException(
-#             status_code=401,
-#             detail="Invalid or expired token"
-#         )
 security = HTTPBearer()
 def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security)

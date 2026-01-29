@@ -7,8 +7,6 @@ from backend.schemas import CRICKET_RECORD,PLAYER_DETAILED,PLAYER_DETAILED_INSER
 from backend.routers import auth  
 from backend.dependencies.auth import get_current_user , admin_only
 from backend.chatbot import router as chatbot
-
-
 from fastapi.middleware.cors import CORSMiddleware
 
 Base.metadata.create_all(bind=engine)
@@ -19,9 +17,9 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],      # sab origins allow
+    allow_origins=["*"],      
     allow_credentials=True,
-    allow_methods=["*"],      # GET, POST, PUT, DELETE
+    allow_methods=["*"],      
     allow_headers=["*"],
 )
 
@@ -46,16 +44,12 @@ def get_all_players(db: Session = Depends(get_db),user: dict = Depends(get_curre
 def get_player_by_name(player_name: str, db: Session = Depends(get_db),current_user = Depends(get_current_user)):
     player = (db.query(Cricketer).filter(Cricketer.name == player_name).first()
     )
-
     if not player:
         raise HTTPException(
             status_code=404,
             detail=f"Player with name '{player_name}' not found"
         )
-
     return player
-
-
 
 # Update player detailed 
 @app.put("/players/name/{player_name}", response_model=PLAYER_DETAILED)
@@ -74,10 +68,8 @@ def update_player_by_name(
 
     if player.country is not None:
         db_player.country = player.country
-
     if player.role is not None:
         db_player.role = player.role
-
     if player.batting_style is not None:
         db_player.batting_style = player.batting_style
 
